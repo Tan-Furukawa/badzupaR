@@ -10,6 +10,32 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// CppLoglikelihood
+double CppLoglikelihood(NumericVector D, NumericVector h, int n);
+RcppExport SEXP _badzupaR_CppLoglikelihood(SEXP DSEXP, SEXP hSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type D(DSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type h(hSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(CppLoglikelihood(D, h, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// make_pilot
+NumericVector make_pilot(NumericVector D, NumericVector h, int n);
+RcppExport SEXP _badzupaR_make_pilot(SEXP DSEXP, SEXP hSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type D(DSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type h(hSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(make_pilot(D, h, n));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_hello_world
 List rcpp_hello_world();
 RcppExport SEXP _badzupaR_rcpp_hello_world() {
@@ -22,6 +48,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_badzupaR_CppLoglikelihood", (DL_FUNC) &_badzupaR_CppLoglikelihood, 3},
+    {"_badzupaR_make_pilot", (DL_FUNC) &_badzupaR_make_pilot, 3},
     {"_badzupaR_rcpp_hello_world", (DL_FUNC) &_badzupaR_rcpp_hello_world, 0},
     {NULL, NULL, 0}
 };

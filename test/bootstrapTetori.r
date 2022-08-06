@@ -1,4 +1,5 @@
 library(this.path)
+library(badzupaR)
 cur_dir = dirname(this.path())
 densFn <- function(x) IsoplotR::kde(x, plot=FALSE)
 

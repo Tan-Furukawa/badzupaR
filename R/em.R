@@ -57,6 +57,10 @@ doEM = function (dat, sd0, mu0, pi1_0, pi2_0, showProgress=TRUE) {
     pi2 <- pi2_0
     sd <- sd0
     c <- 0.1 / (max(dat) - min(dat))
+    print(sd0)
+    print(mu0)
+    print(pi1_0)
+    print(pi2_0)
     for (j in 1:100) {
         nlikelihoodList <- makeLikelihood(mu0,c)(pi1, pi2,sd)(dat) %>% normalizeLikelihood()
         sd <- getSd (dat, nlikelihoodList, mu0)

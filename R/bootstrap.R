@@ -231,7 +231,7 @@ Bootstrap <- R6::R6Class(
           # validation 
           useIt <- !is.na(iniSd)
           iniMu <- (peaks$peaksX)[useIt]
-          isBase <- iniMu[which.min(abs(basePeaksX - iniMu))]
+          isBase <- which.min(abs(basePeaksX - iniMu))
           iniMu[isBase] <- basePeaksX
           return(
                 list(
@@ -247,6 +247,7 @@ Bootstrap <- R6::R6Class(
           d <- self$bootstrapAllPeaksX[, i]
           initialParams <- self$makeInitialGmmParam(d, i)
           isBase = initialParams$isBase
+          print(initialParams)
         #   res <- gmm$doGMM(d, initialParams$iniSd, initialParams$iniMu, initialParams$iniPi, showProgress = FALSE)
           res <- doEM(
               d, 

@@ -55,15 +55,12 @@ Bootstrap <- R6::R6Class(
               sampledDat <- tools$addRandomNoise(sampledDat, self$noiseSize)
             }
 
-            # sampledDat <- sample(sdat, length(sdat), replace=T)
-            # sampledDat <- addRandomNoise(sampledDat, 2)
             sampledDens <- self$densFn(sampledDat)
             self$bootstrapResult[i,] <- tools$fitDistToX(self$baseDens$x, sampledDens)$y
           }
         },
 
         plotAllBootResult = function() {
-          # plot(self$baseDens, type = "l")
           for (i in 1:self$Nbootstrap) {
             lines(self$baseDens$x, self$bootstrapResult[i,], col = rgb(0, 0, 1, 0.1))
           }
@@ -279,25 +276,27 @@ Bootstrap <- R6::R6Class(
           }
           return(data.frame(mu = mu, pi = pi, s = s, prominence = prominence, y = self$basePeaks$peaksY))
         },
-#' @description
-#' Change hair color.
-#' @param show New hair color.
-#' @examples
-#' set.seed(123); dat <- rnorm(100)
-#' densFn <- density
-#' Nbootstrap <- 100
-#' noiseSize <- 0
-#' boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
-#' # exec Bootstrap
-#' res <- boot$doAllProcess(show=FALSE)
-#' # get confident interval
-#' ci <- boot$getCI()
-#' # plot result
-#' plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
-#' polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
-#' lines(boot$baseDens)
-#' curve(dnorm,-3,3,add=TRUE,col="red")
-#'
+
+        #' @description
+        #' get confident interval
+        #' @param lowerP confident level
+        #' @param upper confident level
+        #' @examples
+        #' set.seed(123); dat <- rnorm(100)
+        #' densFn <- density
+        #' Nbootstrap <- 100
+        #' noiseSize <- 0
+        #' boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
+        #' # exec Bootstrap
+        #' res <- boot$doAllProcess(show=FALSE)
+        #' # get confident interval
+        #' ci <- boot$getCI()
+        #' # plot result
+        #' plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
+        #' polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
+        #' lines(boot$baseDens)
+        #' curve(dnorm,-3,3,add=TRUE,col="red")
+        #'
         getCI = function(lowerP = 0.05, upperP = 0.95) {
           res <- list(
                 x = self$baseDens$x,
@@ -308,24 +307,24 @@ Bootstrap <- R6::R6Class(
         },
 
         #' @description
-#' Change hair color.
-#' @param show New hair color.
-#' @examples
-#' set.seed(123); dat <- rnorm(100)
-#' densFn <- density
-#' Nbootstrap <- 100
-#' noiseSize <- 0
-#' boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
-#' # exec Bootstrap
-#' res <- boot$doAllProcess(show=FALSE)
-#' # get confident interval
-#' ci <- boot$getCI()
-#' # plot result
-#' plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
-#' polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
-#' lines(boot$baseDens)
-#' curve(dnorm,-3,3,add=TRUE,col="red")
-#'
+        #' Change hair color.
+        #' @param show New hair color.
+        #' @examples
+        #' set.seed(123); dat <- rnorm(100)
+        #' densFn <- density
+        #' Nbootstrap <- 100
+        #' noiseSize <- 0
+        #' boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
+        #' # exec Bootstrap
+        #' res <- boot$doAllProcess(show=FALSE)
+        #' # get confident interval
+        #' ci <- boot$getCI()
+        #' # plot result
+        #' plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
+        #' polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
+        #' lines(boot$baseDens)
+        #' curve(dnorm,-3,3,add=TRUE,col="red")
+        #'
         doAllProcess = function(show = TRUE, progress = TRUE) {
           self$getBaseDens()
           self$exeBootstrap(progress)

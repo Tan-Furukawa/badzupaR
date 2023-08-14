@@ -2,103 +2,102 @@
 % Please edit documentation in R/cross_validation.R
 \name{Cv}
 \alias{Cv}
-\title{R6 Class Bootstrap
-text}
+\title{Cv Class}
 \description{
-R6 Class Bootstrap
-text
-
-R6 Class Bootstrap
-text
-}
-\examples{
-
-## ------------------------------------------------
-## Method `Cv$exeCVinAllAlgorithm`
-## ------------------------------------------------
-
-algorithms <- list(
-    densityDefault = function(x) density(x),
-    denstiySJ = function(x) density(x, bw = "SJ")
-)
-dat <- rnorm(100)
-cvN <- 10
-cv <- Cv$new(algorithms, dat, cvN)
-res <- cv$exeCVinAllAlgorithm()
+This R6 class provides cross-validation functionality for evaluating algorithms.
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Cv$new()}}
-\item \href{#method-divideVector}{\code{Cv$divideVector()}}
-\item \href{#method-logStar}{\code{Cv$logStar()}}
-\item \href{#method-getA}{\code{Cv$getA()}}
-\item \href{#method-rlcv}{\code{Cv$rlcv()}}
-\item \href{#method-exeCV}{\code{Cv$exeCV()}}
-\item \href{#method-exeCVinAllAlgorithm}{\code{Cv$exeCVinAllAlgorithm()}}
-\item \href{#method-clone}{\code{Cv$clone()}}
+\item \href{#method-cv-new}{\code{Cv$new()}}
+\item \href{#method-cv-rlcv}{\code{Cv$rlcv()}}
+\item \href{#method-cv-exeCV}{\code{Cv$exeCV()}}
+\item \href{#method-cv-exeCVinAllAlgorithm}{\code{Cv$exeCVinAllAlgorithm()}}
+\item \href{#method-cv-clone}{\code{Cv$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-cv-new"></a>}}
+\if{latex}{\out{\hypertarget{method-cv-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Cv$new(algorithms, dat, cvN, watcher = function(index, all) {
-})}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Cv$new(
+  algorithms,
+  dat,
+  watcher = function(index, all) {
+ }
+)}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-divideVector"></a>}}
-\if{latex}{\out{\hypertarget{method-divideVector}{}}}
-\subsection{Method \code{divideVector()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Cv$divideVector(N, vec)}\if{html}{\out{</div>}}
-}
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{algorithms}}{A list of algorithms to be evaluated.}
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-logStar"></a>}}
-\if{latex}{\out{\hypertarget{method-logStar}{}}}
-\subsection{Method \code{logStar()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Cv$logStar(x, a)}\if{html}{\out{</div>}}
-}
+\item{\code{dat}}{The input data for cross-validation.}
 
+\item{\code{watcher}}{A callback function to monitor progress.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A Cv object.
+Calculate Log-Likelihood with Bias for Cross-Validation
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getA"></a>}}
-\if{latex}{\out{\hypertarget{method-getA}{}}}
-\subsection{Method \code{getA()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Cv$getA(dat)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rlcv"></a>}}
-\if{latex}{\out{\hypertarget{method-rlcv}{}}}
+\if{html}{\out{<a id="method-cv-rlcv"></a>}}
+\if{latex}{\out{\hypertarget{method-cv-rlcv}{}}}
 \subsection{Method \code{rlcv()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Cv$rlcv(dat, dens, vdat)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dat}}{A numeric vector representing the input data used for density estimation.}
+
+\item{\code{dens}}{A "density" object representing the density estimation.}
+
+\item{\code{vdat}}{A numeric vector representing the validation data.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The log-likelihood with added bias.
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-exeCV"></a>}}
-\if{latex}{\out{\hypertarget{method-exeCV}{}}}
+\if{html}{\out{<a id="method-cv-exeCV"></a>}}
+\if{latex}{\out{\hypertarget{method-cv-exeCV}{}}}
 \subsection{Method \code{exeCV()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Cv$exeCV(fn, seed = NULL, save = TRUE, algorithmName = "")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{fn}}{The algorithm function to be evaluated.}
+
+\item{\code{seed}}{A seed value for reproducibility.}
+
+\item{\code{save}}{A logical indicating whether to save results.}
+
+\item{\code{algorithmName}}{The name of the algorithm.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A data frame containing cross-validation results.
+Execute cross-validation for all algorithms
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-exeCVinAllAlgorithm"></a>}}
-\if{latex}{\out{\hypertarget{method-exeCVinAllAlgorithm}{}}}
+\if{html}{\out{<a id="method-cv-exeCVinAllAlgorithm"></a>}}
+\if{latex}{\out{\hypertarget{method-cv-exeCVinAllAlgorithm}{}}}
 \subsection{Method \code{exeCVinAllAlgorithm()}}{
-Change hair color.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Cv$exeCVinAllAlgorithm(seed = 1)}\if{html}{\out{</div>}}
 }
@@ -106,29 +105,17 @@ Change hair color.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{seed}}{New hair color.}
+\item{\code{seed}}{A seed value for reproducibility.}
 }
 \if{html}{\out{</div>}}
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{algorithms <- list(
-    densityDefault = function(x) density(x),
-    denstiySJ = function(x) density(x, bw = "SJ")
-)
-dat <- rnorm(100)
-cvN <- 10
-cv <- Cv$new(algorithms, dat, cvN)
-res <- cv$exeCVinAllAlgorithm()
+\subsection{Returns}{
+A data frame containing cross-validation results for all algorithms.
 }
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-cv-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-cv-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

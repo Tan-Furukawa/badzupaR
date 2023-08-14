@@ -9,4 +9,4 @@ Description: One paragraph description of what the package does as one or more f
 License: GPL-3
 Imports: Rcpp (>= 1.0.8), R6 (>= 2.5.1), magrittr (>= 2.0.2), ellipse (>= 0.4.3), IsoplotR (>= 4.3), bsearchtools (>= 0.0.61), ramify(>= 0.3.3) 
 LinkingTo: Rcpp
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3

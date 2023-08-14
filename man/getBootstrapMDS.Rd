@@ -4,7 +4,13 @@
 \alias{getBootstrapMDS}
 \title{getBootstrapMDS}
 \usage{
-getBootstrapMDS(datList, ci = 0.9, Nbootstrap = 100)
+getBootstrapMDS(
+  datList,
+  ci = 0.9,
+  Nbootstrap = 100,
+  watcher = function(progress, total) {
+ }
+)
 }
 \arguments{
 \item{datList}{A number}

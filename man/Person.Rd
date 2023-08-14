@@ -34,15 +34,15 @@ P$hair
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Person$new()}}
-\item \href{#method-set_hair}{\code{Person$set_hair()}}
-\item \href{#method-greet}{\code{Person$greet()}}
-\item \href{#method-clone}{\code{Person$clone()}}
+\item \href{#method-Person-new}{\code{Person$new()}}
+\item \href{#method-Person-set_hair}{\code{Person$set_hair()}}
+\item \href{#method-Person-greet}{\code{Person$greet()}}
+\item \href{#method-Person-clone}{\code{Person$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Person-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Person-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new person object.
 \subsection{Usage}{
@@ -63,8 +63,8 @@ A new `Person` object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_hair"></a>}}
-\if{latex}{\out{\hypertarget{method-set_hair}{}}}
+\if{html}{\out{<a id="method-Person-set_hair"></a>}}
+\if{latex}{\out{\hypertarget{method-Person-set_hair}{}}}
 \subsection{Method \code{set_hair()}}{
 Change hair color.
 \subsection{Usage}{
@@ -91,8 +91,8 @@ P$hair
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-greet"></a>}}
-\if{latex}{\out{\hypertarget{method-greet}{}}}
+\if{html}{\out{<a id="method-Person-greet"></a>}}
+\if{latex}{\out{\hypertarget{method-Person-greet}{}}}
 \subsection{Method \code{greet()}}{
 Say hi.
 \subsection{Usage}{
@@ -101,8 +101,8 @@ Say hi.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Person-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Person-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

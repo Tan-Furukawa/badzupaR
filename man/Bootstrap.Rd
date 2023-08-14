@@ -56,29 +56,29 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Bootstrap$new()}}
-\item \href{#method-getBaseDens}{\code{Bootstrap$getBaseDens()}}
-\item \href{#method-exeBootstrap}{\code{Bootstrap$exeBootstrap()}}
-\item \href{#method-plotAllBootResult}{\code{Bootstrap$plotAllBootResult()}}
-\item \href{#method-detectAllPeaks}{\code{Bootstrap$detectAllPeaks()}}
-\item \href{#method-detectPeaks}{\code{Bootstrap$detectPeaks()}}
-\item \href{#method-detectPeaksInBootstrapResult}{\code{Bootstrap$detectPeaksInBootstrapResult()}}
-\item \href{#method-filterProminence}{\code{Bootstrap$filterProminence()}}
-\item \href{#method-filterAllProminence}{\code{Bootstrap$filterAllProminence()}}
-\item \href{#method-clusterPeaks}{\code{Bootstrap$clusterPeaks()}}
-\item \href{#method-clusterAllPeaks}{\code{Bootstrap$clusterAllPeaks()}}
-\item \href{#method-checkBootstrapAllPeaks}{\code{Bootstrap$checkBootstrapAllPeaks()}}
-\item \href{#method-makeInitialGmmParam}{\code{Bootstrap$makeInitialGmmParam()}}
-\item \href{#method-execGmm}{\code{Bootstrap$execGmm()}}
-\item \href{#method-execAllGmm}{\code{Bootstrap$execAllGmm()}}
-\item \href{#method-getCI}{\code{Bootstrap$getCI()}}
-\item \href{#method-doAllProcess}{\code{Bootstrap$doAllProcess()}}
-\item \href{#method-clone}{\code{Bootstrap$clone()}}
+\item \href{#method-bootstrap-new}{\code{Bootstrap$new()}}
+\item \href{#method-bootstrap-getBaseDens}{\code{Bootstrap$getBaseDens()}}
+\item \href{#method-bootstrap-exeBootstrap}{\code{Bootstrap$exeBootstrap()}}
+\item \href{#method-bootstrap-plotAllBootResult}{\code{Bootstrap$plotAllBootResult()}}
+\item \href{#method-bootstrap-detectAllPeaks}{\code{Bootstrap$detectAllPeaks()}}
+\item \href{#method-bootstrap-detectPeaks}{\code{Bootstrap$detectPeaks()}}
+\item \href{#method-bootstrap-detectPeaksInBootstrapResult}{\code{Bootstrap$detectPeaksInBootstrapResult()}}
+\item \href{#method-bootstrap-filterProminence}{\code{Bootstrap$filterProminence()}}
+\item \href{#method-bootstrap-filterAllProminence}{\code{Bootstrap$filterAllProminence()}}
+\item \href{#method-bootstrap-clusterPeaks}{\code{Bootstrap$clusterPeaks()}}
+\item \href{#method-bootstrap-clusterAllPeaks}{\code{Bootstrap$clusterAllPeaks()}}
+\item \href{#method-bootstrap-checkBootstrapAllPeaks}{\code{Bootstrap$checkBootstrapAllPeaks()}}
+\item \href{#method-bootstrap-makeInitialGmmParam}{\code{Bootstrap$makeInitialGmmParam()}}
+\item \href{#method-bootstrap-execGmm}{\code{Bootstrap$execGmm()}}
+\item \href{#method-bootstrap-execAllGmm}{\code{Bootstrap$execAllGmm()}}
+\item \href{#method-bootstrap-getCI}{\code{Bootstrap$getCI()}}
+\item \href{#method-bootstrap-doAllProcess}{\code{Bootstrap$doAllProcess()}}
+\item \href{#method-bootstrap-clone}{\code{Bootstrap$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-bootstrap-new"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$new(
@@ -86,14 +86,15 @@ curve(dnorm,-3,3,add=TRUE,col="red")
   dat,
   densFn,
   noiseSize,
-  watcherFn = (function(i, N) { })
+  watcherFn = (function(i, N) {
+ })
 )}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getBaseDens"></a>}}
-\if{latex}{\out{\hypertarget{method-getBaseDens}{}}}
+\if{html}{\out{<a id="method-bootstrap-getBaseDens"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-getBaseDens}{}}}
 \subsection{Method \code{getBaseDens()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$getBaseDens()}\if{html}{\out{</div>}}
@@ -101,8 +102,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-exeBootstrap"></a>}}
-\if{latex}{\out{\hypertarget{method-exeBootstrap}{}}}
+\if{html}{\out{<a id="method-bootstrap-exeBootstrap"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-exeBootstrap}{}}}
 \subsection{Method \code{exeBootstrap()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$exeBootstrap(progress = TRUE)}\if{html}{\out{</div>}}
@@ -110,8 +111,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotAllBootResult"></a>}}
-\if{latex}{\out{\hypertarget{method-plotAllBootResult}{}}}
+\if{html}{\out{<a id="method-bootstrap-plotAllBootResult"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-plotAllBootResult}{}}}
 \subsection{Method \code{plotAllBootResult()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$plotAllBootResult()}\if{html}{\out{</div>}}
@@ -119,8 +120,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-detectAllPeaks"></a>}}
-\if{latex}{\out{\hypertarget{method-detectAllPeaks}{}}}
+\if{html}{\out{<a id="method-bootstrap-detectAllPeaks"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-detectAllPeaks}{}}}
 \subsection{Method \code{detectAllPeaks()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$detectAllPeaks(resDens)}\if{html}{\out{</div>}}
@@ -128,8 +129,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-detectPeaks"></a>}}
-\if{latex}{\out{\hypertarget{method-detectPeaks}{}}}
+\if{html}{\out{<a id="method-bootstrap-detectPeaks"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-detectPeaks}{}}}
 \subsection{Method \code{detectPeaks()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$detectPeaks(resDens)}\if{html}{\out{</div>}}
@@ -137,8 +138,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-detectPeaksInBootstrapResult"></a>}}
-\if{latex}{\out{\hypertarget{method-detectPeaksInBootstrapResult}{}}}
+\if{html}{\out{<a id="method-bootstrap-detectPeaksInBootstrapResult"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-detectPeaksInBootstrapResult}{}}}
 \subsection{Method \code{detectPeaksInBootstrapResult()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$detectPeaksInBootstrapResult()}\if{html}{\out{</div>}}
@@ -146,8 +147,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filterProminence"></a>}}
-\if{latex}{\out{\hypertarget{method-filterProminence}{}}}
+\if{html}{\out{<a id="method-bootstrap-filterProminence"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-filterProminence}{}}}
 \subsection{Method \code{filterProminence()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$filterProminence(eachPeak)}\if{html}{\out{</div>}}
@@ -155,8 +156,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-filterAllProminence"></a>}}
-\if{latex}{\out{\hypertarget{method-filterAllProminence}{}}}
+\if{html}{\out{<a id="method-bootstrap-filterAllProminence"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-filterAllProminence}{}}}
 \subsection{Method \code{filterAllProminence()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$filterAllProminence()}\if{html}{\out{</div>}}
@@ -164,8 +165,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clusterPeaks"></a>}}
-\if{latex}{\out{\hypertarget{method-clusterPeaks}{}}}
+\if{html}{\out{<a id="method-bootstrap-clusterPeaks"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-clusterPeaks}{}}}
 \subsection{Method \code{clusterPeaks()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$clusterPeaks(targetX)}\if{html}{\out{</div>}}
@@ -173,8 +174,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clusterAllPeaks"></a>}}
-\if{latex}{\out{\hypertarget{method-clusterAllPeaks}{}}}
+\if{html}{\out{<a id="method-bootstrap-clusterAllPeaks"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-clusterAllPeaks}{}}}
 \subsection{Method \code{clusterAllPeaks()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$clusterAllPeaks()}\if{html}{\out{</div>}}
@@ -182,8 +183,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-checkBootstrapAllPeaks"></a>}}
-\if{latex}{\out{\hypertarget{method-checkBootstrapAllPeaks}{}}}
+\if{html}{\out{<a id="method-bootstrap-checkBootstrapAllPeaks"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-checkBootstrapAllPeaks}{}}}
 \subsection{Method \code{checkBootstrapAllPeaks()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$checkBootstrapAllPeaks(i)}\if{html}{\out{</div>}}
@@ -191,8 +192,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-makeInitialGmmParam"></a>}}
-\if{latex}{\out{\hypertarget{method-makeInitialGmmParam}{}}}
+\if{html}{\out{<a id="method-bootstrap-makeInitialGmmParam"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-makeInitialGmmParam}{}}}
 \subsection{Method \code{makeInitialGmmParam()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$makeInitialGmmParam(d, i)}\if{html}{\out{</div>}}
@@ -200,8 +201,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-execGmm"></a>}}
-\if{latex}{\out{\hypertarget{method-execGmm}{}}}
+\if{html}{\out{<a id="method-bootstrap-execGmm"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-execGmm}{}}}
 \subsection{Method \code{execGmm()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$execGmm(i)}\if{html}{\out{</div>}}
@@ -209,8 +210,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-execAllGmm"></a>}}
-\if{latex}{\out{\hypertarget{method-execAllGmm}{}}}
+\if{html}{\out{<a id="method-bootstrap-execAllGmm"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-execAllGmm}{}}}
 \subsection{Method \code{execAllGmm()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$execAllGmm()}\if{html}{\out{</div>}}
@@ -218,10 +219,10 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getCI"></a>}}
-\if{latex}{\out{\hypertarget{method-getCI}{}}}
+\if{html}{\out{<a id="method-bootstrap-getCI"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-getCI}{}}}
 \subsection{Method \code{getCI()}}{
-Change hair color.
+get confident interval
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$getCI(lowerP = 0.05, upperP = 0.95)}\if{html}{\out{</div>}}
 }
@@ -229,7 +230,9 @@ Change hair color.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{show}}{New hair color.}
+\item{\code{lowerP}}{confident level}
+
+\item{\code{upper}}{confident level}
 }
 \if{html}{\out{</div>}}
 }
@@ -257,8 +260,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-doAllProcess"></a>}}
-\if{latex}{\out{\hypertarget{method-doAllProcess}{}}}
+\if{html}{\out{<a id="method-bootstrap-doAllProcess"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-doAllProcess}{}}}
 \subsection{Method \code{doAllProcess()}}{
 Change hair color.
 \subsection{Usage}{
@@ -296,8 +299,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-bootstrap-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-bootstrap-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

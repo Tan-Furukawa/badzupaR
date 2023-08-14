@@ -1,88 +1,123 @@
-#' R6 Class Bootstrap
-#' text
+# source("R/tools.r")
+
+#' Cv Class
+#'
+#' This R6 class provides cross-validation functionality for evaluating algorithms.
+#' 
+#' @example 
+#' algorithms <- list(
+#'     densityDefault = function(x) density(x),
+#'     denstiySJ = function(x) density(x, bw = "SJ")
+#' )
+#' dat <- rnorm(100)
+#' cv <- Cv$new(algorithms, dat)
+#' cv$exeCVinAllAlgorithm()
+#'
+#' @export
 Cv <- R6::R6Class(
 
   "cv",
   private = list(
-    cvData = NULL
+    cvData = NULL,
+    divideVector = function(N, vec) {
+      vecRem <- 1:length(vec)
+      distribute <- length(vec) %% N
+      eachLen <- length(vec) %/% N
+      validation <- list()
+
+      for (i in 1:N) {
+        if (i <= distribute) {
+          to <- eachLen + 1
+        } else {
+          to <- eachLen
+        }
+        validation[[i]] <- vecRem[1:to]
+        vecRem <- vecRem[(to + 1):length(vecRem)]
+      }
+
+      res <- list()
+      for (i in seq(validation)) {
+        res[[i]] <- list(
+              train = vec[-validation[[i]]],
+              validation = vec[validation[[i]]]
+          )
+      }
+      return(res)
+    },
+
+    logStar = function(x, a) {
+      res <- numeric(length(x))
+      for (i in 1:length(x)) {
+        if (x[i] > a) {
+          res[i] <- (log(x[i]))
+        } else {
+          res[i] <- (log(a) - 1 + x[i] / a)
+        }
+      }
+      return(res)
+    },
+
+    getA = function(dat) {
+      n <- length(dat)
+      return(sd(dat) ^ (-1) * (2 * pi) ^ (-0.5) * gamma(0.5) * (log(n)) ^ (0.5) / n)
+    }
   ),
 
   public = list(
 
+      cvN = 10,
       dat = NULL,
       algorithms = NULL,
-      cvN = NULL,
       watcher = NULL,
       popDens = NULL,
       progressAlgorithm = 1,
 
-      initialize = function(algorithms, dat, cvN, watcher=function(index, all){ }) {
+      #' Initialize the Cv class
+      #'
+      #' @param algorithms A list of algorithms to be evaluated.
+      #' @param dat The input data for cross-validation.
+      #' @param watcher A callback function to monitor progress.
+      #'
+      #' @return A Cv object.
+      initialize = function(algorithms, dat, watcher=function(index, all){ }) {
         self$algorithms <- algorithms
         self$dat <- dat
-        self$cvN <- cvN
+        self$cvN <- self$cvN
         self$watcher <- watcher
       },
 
-      divideVector = function(N, vec) {
-        vecRem <- 1:length(vec)
-        distribute <- length(vec) %% N
-        eachLen <- length(vec) %/% N
-        validation <- list()
-
-        for (i in 1:N) {
-          if (i <= distribute) {
-            to <- eachLen + 1
-          } else {
-            to <- eachLen
-          }
-          validation[[i]] <- vecRem[1:to]
-          vecRem <- vecRem[(to + 1):length(vecRem)]
-        }
-
-        res <- list()
-        for (i in seq(validation)) {
-          res[[i]] <- list(
-                train = vec[-validation[[i]]],
-                validation = vec[validation[[i]]]
-            )
-        }
-        return(res)
-      },
-
-      logStar = function(x, a) {
-        res <- numeric(length(x))
-        for (i in 1:length(x)) {
-          if (x[i] > a) {
-            res[i] <- (log(x[i]))
-          } else {
-            res[i] <- (log(a) - 1 + x[i] / a)
-          }
-        }
-        return(res)
-      },
-
-      getA = function(dat) {
-        n <- length(dat)
-        return(sd(dat) ^ (-1) * (2 * pi) ^ (-0.5) * gamma(0.5) * (log(n)) ^ (0.5) / n)
-      },
-
+      #' Calculate Log-Likelihood with Bias for Cross-Validation
+      #'
+      #' @param dat A numeric vector representing the input data used for density estimation.
+      #' @param dens A "density" object representing the density estimation.
+      #' @param vdat A numeric vector representing the validation data.
+      #' @return The log-likelihood with added bias.
+      #'
+      #' @export
       rlcv = function(dat, dens, vdat) {
-        a <- self$getA(dat)
-        l <- sum(-self$logStar(tools$fitDistToX(sort(vdat), dens)$y, a)) / length(vdat)
+        a <- private$getA(dat)
+        l <- sum(-private$logStar(tools$fitDistToX(sort(vdat), dens)$y, a)) / length(vdat)
         uy <- dens$y[dens$y > a] / sum(dens$y)
         ly <- (dens$y[dens$y <= a]) ^ 2 / sum(dens$y)
         b <- sum(uy) + sum(1 / (2 * a) * ly)
         if (b == 0) {
-          print(paste("ly", ly))
-          print(paste("uy", uy))
+          cat(paste("ly", ly, "\n"))
+          cat(paste("uy", uy, "\n"))
           stop()
         }
-        print(paste('(likelihood, bias)=(', l, b, ')'), quote = FALSE)
+        cat(paste('(likelihood, bias)=(', l, b, ')\n'))
         return(l + b)
       },
 
+      #' Execute cross-validation for a specific algorithm
+      #'
+      #' @param fn The algorithm function to be evaluated.
+      #' @param seed A seed value for reproducibility.
+      #' @param save A logical indicating whether to save results.
+      #' @param algorithmName The name of the algorithm.
+      #'
+      #' @return A data frame containing cross-validation results.
       exeCV = function(fn, seed = NULL, save = TRUE, algorithmName="") {
-
         scores <- c()
         res = data.frame(index = c(), algorithm = c(), score = c())
         for (i in 1:self$cvN) {
@@ -96,35 +131,37 @@ Cv <- R6::R6Class(
         return(res)
       },
 
-      #' @description
-#' Change hair color.
-#' @param seed New hair color.
-#' @examples
-#' algorithms <- list(
-#'     densityDefault = function(x) density(x),
-#'     denstiySJ = function(x) density(x, bw = "SJ")
-#' )
-#' dat <- rnorm(100)
-#' cvN <- 10
-#' cv <- Cv$new(algorithms, dat, cvN)
-#' res <- cv$exeCVinAllAlgorithm()
+      #' Execute cross-validation for all algorithms
+      #'
+      #' @param seed A seed value for reproducibility.
+      #'
+      #' @return A data frame containing cross-validation results for all algorithms.
       exeCVinAllAlgorithm = function(seed = 1) {
         res <- data.frame(index = c(), algorithm = c(), score = c());
         cvScores <- numeric(length(self$algorithms))
-        private$cvData <- self$divideVector(self$cvN, self$dat)
+        private$cvData <- private$divideVector(self$cvN, self$dat)
         for (i in seq(self$algorithms)) {
           self$progressAlgorithm = i;
-          print(paste('-------start alogrithm', names(self$algorithms)[i], "------------"), quote = FALSE)
+          cat(paste('-------start alogrithm', names(self$algorithms)[i], "------------\n"))
           fn <- self$algorithms[[i]]
           cvScore <- self$exeCV(fn, self$cvN, seed, algorithmName=names(self$algorithms[i]))
           cvScores[i] <- mean(cvScore$score)
           res <- rbind(res, cvScore)
-          print(paste('> mean of cv score', mean(cvScore$score)), quote = FALSE)
+          cat(paste('mean of cv score', mean(cvScore$score),"\n"))
         }
-        print("--------best algorithm----------------------------", quote = FALSE)
-        print(names(self$algorithms[which.min(cvScores)]))
-        print("--------------------------------------------------", quote = FALSE)
+        cat("--------best algorithm----------------------------\n")
+        cat(paste(names(self$algorithms[which.min(cvScores)])), "\n")
+        cat("--------------------------------------------------\n")
         return(res)
       }
   )
 )
+
+#  algorithms <- list(
+#      densityDefault = function(x) density(x),
+#      denstiySJ = function(x) density(x, bw = "SJ")
+#  )
+#  dat <- rnorm(100)
+
+#  cv <- Cv$new(algorithms, dat)
+#  cv$exeCVinAllAlgorithm()

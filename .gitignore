@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+.vscode
 badzupaR.Rproj
 Read-and-delete-me

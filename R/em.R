@@ -1,4 +1,3 @@
-# 正規分布＋一様ノイズでフィッティング
 # ====================================
 
 makeLikelihood <- function(mu0, c) {
@@ -77,7 +76,7 @@ doEM = function (dat, sd0, mu0, pi1_0, pi2_0, showProgress=TRUE) {
     return (list(mu=mu0, s=sd, pi=correctRatio, pi1 = pi1, pi2=pi2))
 }
 
-# ##1
+# #1
 # x <- seq(0,1000,length=100)
 # dat <- c(rnorm(100,200,100), runif(100, min=0, max=2000))
 # correct <- 0.5 * dnorm(x, 200, 100) + 0.5 * dunif(x,min=0,max=1000)

@@ -3,18 +3,19 @@ Tool <- R6::R6Class(
     public = list(
 
         fitDistToX = function(x, dist) {
-          tx <- dist$x;
+          tx <- dist$x
           ty <- dist$y
           y <- numeric(length(x))
           for (i in 1:length(x)) {
             j <- bsearchtools::lb(tx, x[i])
             if (j <= 1) {
-              y[1:i] <- ty[1]
+              y[i] <- ty[1]
               next
             }
             if (j > length(tx)) {
-              y[i:length(x)] <- ty[length(ty)]
-              break
+              y[i] <- ty[length(ty)]
+              # break
+              next
             }
             y[i] <- (ty[j] - ty[j - 1]) / (tx[j] - tx[j - 1]) * (x[i] - tx[j]) + ty[j]
           }

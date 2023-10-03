@@ -70,6 +70,7 @@ Cv <- R6::R6Class(
       algorithms = NULL,
       watcher = NULL,
       popDens = NULL,
+      usingLogStar = TRUE,
       progressAlgorithm = 1,
 
       #' Initialize the Cv class
@@ -95,18 +96,26 @@ Cv <- R6::R6Class(
       #'
       #' @export
       rlcv = function(dat, dens, vdat) {
-        a <- private$getA(dat)
-        l <- sum(-private$logStar(tools$fitDistToX(sort(vdat), dens)$y, a)) / length(vdat)
-        uy <- dens$y[dens$y > a] / sum(dens$y)
-        ly <- (dens$y[dens$y <= a]) ^ 2 / sum(dens$y)
-        b <- sum(uy) + sum(1 / (2 * a) * ly)
-        if (b == 0) {
-          cat(paste("ly", ly, "\n"))
-          cat(paste("uy", uy, "\n"))
-          stop()
+        if (self$usingLogStar) {
+          a <- private$getA(dat)
+          l <- sum(-private$logStar(tools$fitDistToX(sort(vdat), dens)$y, a)) / length(vdat)
+          uy <- dens$y[dens$y > a] / sum(dens$y)
+          ly <- (dens$y[dens$y <= a])^2 / sum(dens$y)
+          b <- sum(uy) + sum(1 / (2 * a) * ly)
+          
+          if (b == 0) {
+            cat(paste("ly", ly, "\n"))
+            cat(paste("uy", uy, "\n"))
+            stop()
+          }
+          cat(paste('(likelihood, bias)=(', l, b, ')\n'))
+          return(l + b)
+        } else {
+          l <- sum(-log(tools$fitDistToX(sort(vdat), dens)$y)) / length(vdat)
+          cat(paste('(likelihood, bias)=(', l, ', NA)\n'))
+          return(l)
         }
-        cat(paste('(likelihood, bias)=(', l, b, ')\n'))
-        return(l + b)
+
       },
 
       #' Execute cross-validation for a specific algorithm

@@ -121,9 +121,9 @@ kernel_density = function(dat,
                             m = 400) {
     n <- length(dat)
     delta <- max(dat) - min(dat)
-    if (is.null(x)) {
-        x <- seq(min(dat) - delta * out, max(dat) + delta * out, length = m)
-    }
+    # if (is.null(x)) {
+    #     x <- seq(min(dat) - delta * out, max(dat) + delta * out, length = m)
+    # }
     y <- numeric(length(x))
     for (i in 1:length(dat)) {
         if (bandwith[i] == Inf) {
@@ -190,21 +190,24 @@ density.adeba = function(x,
     
     if (is.na(to)) {
         to <- max(dat) + (max(dat) - min(dat)) * out
+    } else {
+        to <- to
     }
     
     if (is.na(from)) {
         from <- min(dat) - (max(dat) - min(dat)) * out
+    } else {
+        from <- from
     }
     
-    from <- (from - mind) / (maxd - mind)
-    to <- (to - mind) / (maxd - mind)
-    
-    dat <- (dat - mind) / (maxd - mind)
-    x <- seq(from, to, length = n)
-    
+    n_from <- (from - mind) / (maxd - mind)
+    n_to <- (to - mind) / (maxd - mind)
+    n_dat <- (dat - mind) / (maxd - mind)
+
+    n_x <- seq(n_from, n_to, length = n)
     
     bandwith <- get_adeba_bandwidth(
-        dat,
+        n_dat,
         range_log_alpha,
         vec_beta,
         discre_size1,
@@ -213,19 +216,18 @@ density.adeba = function(x,
         beta0
     )
     
-    normalize_dens <-
-        kernel_density(dat,
+    normalize_dens <- kernel_density(n_dat,
                             bandwith,
                             triweight,
-                            x = x,
+                            x = n_x,
                             out = out,
-                            m = n
-        )
+                            m = n)
+                            
     nx <- normalize_dens$x
     ny <- normalize_dens$y
     
     x <- nx * (maxd - mind) + mind
-    delta <- x[3] - x[2]
+    delta <- (x[length(x)] - x[1])/length(x)
     sumP <- sum(ny)
     y <- ny / (sumP * delta)
 

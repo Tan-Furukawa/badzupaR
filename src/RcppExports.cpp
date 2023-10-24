@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // CppLoglikelihood
 double CppLoglikelihood(NumericVector D, NumericVector h, int n);
-RcppExport SEXP _xbadzupaR_CppLoglikelihood(SEXP DSEXP, SEXP hSEXP, SEXP nSEXP) {
+RcppExport SEXP _badzupaR_CppLoglikelihood(SEXP DSEXP, SEXP hSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,7 +25,7 @@ END_RCPP
 }
 // make_pilot
 NumericVector make_pilot(NumericVector D, NumericVector h, int n);
-RcppExport SEXP _xbadzupaR_make_pilot(SEXP DSEXP, SEXP hSEXP, SEXP nSEXP) {
+RcppExport SEXP _badzupaR_make_pilot(SEXP DSEXP, SEXP hSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -38,12 +38,12 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_xbadzupaR_CppLoglikelihood", (DL_FUNC) &_xbadzupaR_CppLoglikelihood, 3},
-    {"_xbadzupaR_make_pilot", (DL_FUNC) &_xbadzupaR_make_pilot, 3},
+    {"_badzupaR_CppLoglikelihood", (DL_FUNC) &_badzupaR_CppLoglikelihood, 3},
+    {"_badzupaR_make_pilot", (DL_FUNC) &_badzupaR_make_pilot, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_xbadzupaR(DllInfo *dll) {
+RcppExport void R_init_badzupaR(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

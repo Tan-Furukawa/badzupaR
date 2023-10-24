@@ -1,7 +1,7 @@
-Package: xbadzupaR
+Package: badzupaR
 Type: Package
 Title: X-BADZUPA (A Cross-Validation and Bootstrap Approach for Detrital Zircon U-Pb age distributions)
-Version: 1.0
+Version: 0.0.1
 Date: 2022-05-28
 Author: Furukawa Tan
 Maintainer: Furukawa Tan <tan.furukawa.s8@dc.tohoku.ac.jp>

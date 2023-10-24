@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 CppLoglikelihood <- function(D, h, n) {
-    .Call(`_xbadzupaR_CppLoglikelihood`, D, h, n)
+    .Call(`_badzupaR_CppLoglikelihood`, D, h, n)
 }
 
 make_pilot <- function(D, h, n) {
-    .Call(`_xbadzupaR_make_pilot`, D, h, n)
+    .Call(`_badzupaR_make_pilot`, D, h, n)
 }
 

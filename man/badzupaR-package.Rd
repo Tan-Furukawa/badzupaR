@@ -1,6 +1,6 @@
-\name{xbadzupaR-package}
-\alias{xbadzupaR-package}
-\alias{xbadzupaR}
+\name{badzupaR-package}
+\alias{badzupaR-package}
+\alias{badzupaR}
 \docType{package}
 \title{
   X-BADZUPA(A Cross-Validation and Bootstrap Approach for Detrital Zircon U-Pb age distributions)

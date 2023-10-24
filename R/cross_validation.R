@@ -1,18 +1,17 @@
-# source("R/tools.r")
-
-#' Cv Class
+#' Cross Validation for xbadzupaR
 #'
 #' This R6 class provides cross-validation functionality for evaluating algorithms.
 #' 
 #' @example 
 #' algorithms <- list(
-#'     densityDefault = function(x) density(x),
-#'     denstiySJ = function(x) density(x, bw = "SJ")
+#'     denstiyBOTEV = function(x) IsoplotR::kde(x, plot=FALSE),
+#'     densityADEBA = density.adeba
 #' )
 #' dat <- rnorm(100)
 #' cv <- Cv$new(algorithms, dat)
 #' cv$exeCVinAllAlgorithm()
 #'
+#' @importFrom R6 R6Class
 #' @export
 Cv <- R6::R6Class(
 
@@ -94,7 +93,6 @@ Cv <- R6::R6Class(
       #' @param vdat A numeric vector representing the validation data.
       #' @return The log-likelihood with added bias.
       #'
-      #' @export
       rlcv = function(dat, dens, vdat) {
         if (self$usingLogStar) {
           a <- private$getA(dat)
@@ -143,8 +141,19 @@ Cv <- R6::R6Class(
       #' Execute cross-validation for all algorithms
       #'
       #' @param seed A seed value for reproducibility.
-      #'
+      #' 
       #' @return A data frame containing cross-validation results for all algorithms.
+      #' 
+      #' @examples
+      #'  algorithms <- list(
+      #'      denstiyBOTEV = function(x) IsoplotR::kde(x, plot=FALSE),
+      #'      densityADEBA = density.adeba
+      #'  )
+      #'  dat <- rnorm(100)
+
+      #'  cv <- Cv$new(algorithms, dat)
+      #'  cv$exeCVinAllAlgorithm()
+      #'  
       exeCVinAllAlgorithm = function(seed = 1) {
         res <- data.frame(index = c(), algorithm = c(), score = c());
         cvScores <- numeric(length(self$algorithms))
@@ -165,12 +174,3 @@ Cv <- R6::R6Class(
       }
   )
 )
-
-#  algorithms <- list(
-#      densityDefault = function(x) density(x),
-#      denstiySJ = function(x) density(x, bw = "SJ")
-#  )
-#  dat <- rnorm(100)
-
-#  cv <- Cv$new(algorithms, dat)
-#  cv$exeCVinAllAlgorithm()

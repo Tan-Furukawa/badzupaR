@@ -9,7 +9,3 @@ make_pilot <- function(D, h, n) {
     .Call(`_xbadzupaR_make_pilot`, D, h, n)
 }
 
-rcpp_hello_world <- function() {
-    .Call(`_xbadzupaR_rcpp_hello_world`)
-}
-

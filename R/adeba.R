@@ -168,9 +168,7 @@ triweight = function(u) {
 #' density_result <- density.adeba(data)
 #' plot(density_result, main = "Density Estimation")
 #'
-#' @importFrom stats density
-#' @importFrom stats approxfun
-#' @importFrom stats log
+#' @importFrom Rcpp evalCpp
 #' @export
 density.adeba = function(x,
                             range_log_alpha = c(-6.0, 1.0),

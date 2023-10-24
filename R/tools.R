@@ -126,6 +126,16 @@ Tool <- R6::R6Class(
           } else {
             return(apply(X, MARGIN, FUN, ...))
           }
+        },
+
+        makeUniformNoiseFromData = function(dat) {
+          sdat <- sort(dat)
+          ddat <- diff(sort(sdat))
+          u <- sdat + c(ddat / 2, 0)
+          l <- sdat - c(0, ddat / 2)
+          res <- sample(1:length(dat), replace = T) %>% 
+            sapply(function(i) runif(1, min=l[i], max=u[i]))
+          return(res)
         }
 
         )

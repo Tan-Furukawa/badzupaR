@@ -13,16 +13,36 @@ getBootstrapMDS(
 )
 }
 \arguments{
-\item{datList}{A number}
+\item{datList}{A list of numeric vectors representing datasets.}
 
-\item{ci, }{hoge}
+\item{ci}{The confidence level for ellipses (default is 0.9).}
 
-\item{Nbootstrap}{hoge}
+\item{Nbootstrap}{The number of bootstrap samples to generate (default is 100).}
+
+\item{watcher}{A custom function to monitor the progress of bootstrapping.}
+}
+\value{
+A list containing the following components:
+\item{datList}{The input dataset list.}
+\item{X}{The MDS coordinates of the original data.}
+\item{bootstrapCoordinate}{A list of MDS coordinates for bootstrapped samples.}
+\item{ellipseCoordinate}{A list of confidence ellipses for the bootstrapped data.}
 }
 \description{
-getBootstrapMDS
+This function computes Multidimensional Scaling (MDS) and generates confidence ellipses
+based on bootstrapped data for a list of datasets. It allows you to estimate the MDS
+coordinates and corresponding confidence intervals.
 }
 \examples{
-print("test")
+datList <- list(
+  N1 = rnorm(200),
+  N2 = rnorm(200),
+  N3 = rnorm(200, 2, 1),
+  N4 = rnorm(200, 2, 1),
+  N5 = rnorm(200, 3, 1),
+  N6 = rnorm(200, 3, 1)
+  )
+ res <- getBootstrapMDS(datList, Nbootstrap = 100)
+ plotBootstrapMDS (res, addPoints=F)
 
 }

@@ -1,11 +1,72 @@
 #' R6 Class Bootstrap
-#' text
+#'
+#' This R6 class, Bootstrap, is designed for bootstrapping density estimation and peak detection.
+#' It allows you to perform bootstrap resampling, detect peaks in the bootstrapped results, and
+#' estimate Gaussian Mixture Models (GMM) for the detected peaks.
+#'
+#' @usage
+#' set.seed(123); dat <- rnorm(100)
+#' densFn <- density
+#' Nbootstrap <- 100
+#' noiseSize <- 0
+#' boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
+#' # exec Bootstrap
+#' res <- boot$doAllProcess(show=FALSE)
+#' # get confident interval
+#' ci <- boot$getCI()
+#' # plot result
+#' plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
+#' polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
+#' lines(boot$baseDens)
+#' curve(dnorm,-3,3,add=TRUE,col="red")
+#'
+#' @section Public Fields:
+#' \describe{
+#'   \item{watcher}{A function to monitor the progress of bootstrapping.}
+#'   \item{Nbootstrap}{The number of bootstrap samples to generate.}
+#'   \item{dat}{The original data for density estimation.}
+#'   \item{ci}{A numeric vector representing confidence intervals.}
+#'   \item{noiseSize}{The standard deviation of random noise to add during bootstrapping.}
+#'   \item{densFn}{A function for estimating the density of the data.}
+#'   \item{baseDens}{The density estimate of the original data.}
+#'   \item{bootstrapResult}{A matrix containing bootstrap results.}
+#'   \item{peaksInBootstrapResult}{A list of peak information from the bootstrap results.}
+#'   \item{filteredPeaksInBootstrapResult}{Filtered peak information after applying thresholds.}
+#'   \item{prominenceThreshold}{Threshold for peak prominence.}
+#'   \item{relativeHeight}{Threshold for relative peak height.}
+#'   \item{bootstrapAllPeaksX}{A matrix containing clustered peaks from the base density.}
+#'   \item{basePeaks}{Filtered base peaks.}
+#'   \item{method}{The method used for bootstrapping ('naive' or 'smooth').}
+#' }
+#'
+#' @section Public Methods:
+#' \describe{
+#'   \item{initialize}{Initialize the Bootstrap object with the specified parameters.}
+#'   \item{getBaseDens}{Estimate the density of the original data.}
+#'   \item{exeBootstrap}{Perform bootstrap resampling.}
+#'   \item{plotAllBootResult}{Plot all bootstrapped results.}
+#'   \item{detectAllPeaks}{Detect peaks in a density estimate.}
+#'   \item{detectPeaks}{Detect peaks based on specified criteria.}
+#'   \item{detectPeaksInBootstrapResult}{Detect peaks in the bootstrap results.}
+#'   \item{filterProminence}{Filter peaks based on prominence and relative height thresholds.}
+#'   \item{filterAllProminence}{Filter all peaks in the bootstrap results.}
+#'   \item{clusterPeaks}{Cluster peaks around a target X value.}
+#'   \item{clusterAllPeaks}{Cluster all base peaks.}
+#'   \item{checkBootstrapAllPeaks}{Plot density of clustered peaks.}
+#'   \item{makeInitialGmmParam}{Generate initial GMM parameters for a specific bootstrap result.}
+#'   \item{execGmm}{Perform Gaussian Mixture Model (GMM) estimation for a specific bootstrap result.}
+#'   \item{execAllGmm}{Perform GMM estimation for all clustered peaks.}
+#'   \item{getCI}{Get confidence intervals for density estimation.}
+#'   \item{doAllProcess}{Execute the entire Bootstrap process.}
+#' }
+#'
+#' @importFrom R6 R6Class
+#' @export
 Bootstrap <- R6::R6Class(
 
     "bootstrap",
 
     public = list(
-
         watcher = NULL,
         Nbootstrap = NA,
         dat = NA,
@@ -17,13 +78,25 @@ Bootstrap <- R6::R6Class(
         peaksInBootstrapResult = NULL,
         filteredPeaksInBootstrapResult = NULL,
         prominenceThreshold = 0.01,
-        relativeHeight = 0.01,
-        prominenceThresholdAtBootstrapPeaksDetection = 0.05,
-        relativeHeightAtBootstrapPeaksDetection = 0.05,
+        relativeHeight = 0.00,
+        # prominenceThresholdAtBootstrapPeaksDetection = 0.05,
+        # relativeHeightAtBootstrapPeaksDetection = 0.05,
         bootstrapAllPeaksX = NULL,
         basePeaks = NULL,
-        method = 'naive',
+        basePeaksMean = NULL,
+        # method = 'empirical',
+        method = 'smooth',
 
+        #' initialize
+        #'
+        #' This function initializes the Bootstrap object with essential parameters and functions
+        #' for bootstrapping and density estimation.
+        #'
+        #' @param Nbootstrap The number of bootstrap samples to generate.
+        #' @param dat The original dataset for bootstrapping.
+        #' @param densFn The density estimation function for the dataset.
+        #' @param noiseSize The amount of random noise to add to resampled data.
+        #' @param watcherFn A custom function to monitor the progress of bootstrapping (default is a no-op function).
         initialize = function(Nbootstrap, dat, densFn, noiseSize, watcherFn = (function(i, N) { })) {
           self$Nbootstrap <- Nbootstrap
           self$dat <- dat
@@ -32,10 +105,22 @@ Bootstrap <- R6::R6Class(
           self$watcher <- watcherFn
         },
 
+        #' getBaseDens
+        #'
+        #' This function computes the density function of the original dataset using the provided density estimation function.
+        #'
         getBaseDens = function() {
           self$baseDens <- self$densFn(self$dat)
         },
 
+        #' exeBootstrap
+        #'
+        #' This function performs bootstrapping to generate multiple resampled datasets
+        #' and estimates their density functions. It is used to create the bootstrap result
+        #' for further analysis.
+        #'
+        #' @param progress A logical value indicating whether to display progress during bootstrapping (default is TRUE).
+        #'
         exeBootstrap = function(progress = TRUE) {
           m <- length(self$baseDens$x)
           pb <- NULL
@@ -50,7 +135,10 @@ Bootstrap <- R6::R6Class(
             if (self$method == 'smooth') {
               sampledDat <- tools$sampleFromPopDist(length(self$dat), self$baseDens, seed = i)
               sampledDat <- tools$addRandomNoise(sampledDat, self$noiseSize)
-            } else {
+            } else if (self$method == 'empirical') {
+              sampledDat <- tools$makeUniformNoiseFromData(dat)
+            }
+            else {
               sampledDat <- sample(self$dat, length(self$dat), replace = TRUE)
               sampledDat <- tools$addRandomNoise(sampledDat, self$noiseSize)
             }
@@ -60,6 +148,11 @@ Bootstrap <- R6::R6Class(
           }
         },
 
+        #' plotAllBootResult
+        #'
+        #' This function generates a plot to visualize the bootstrap results and the original dataset's density function.
+        # It overlays lines representing each bootstrapped density function with transparency to show the variation.
+        #'
         plotAllBootResult = function() {
           for (i in 1:self$Nbootstrap) {
             lines(self$baseDens$x, self$bootstrapResult[i,], col = rgb(0, 0, 1, 0.1))
@@ -208,8 +301,8 @@ Bootstrap <- R6::R6Class(
           escProminenceThreshold <- self$prominenceThreshold
           escRelattiveHeight <- self$relativeHeight
 
-          self$prominenceThreshold <- self$prominenceThresholdAtBootstrapPeaksDetection
-          self$relativeHeight <- self$relativeHeightAtBootstrapPeaksDetection
+          # self$prominenceThreshold <- self$prominenceThresholdAtBootstrapPeaksDetection
+          # self$relativeHeight <- self$relativeHeightAtBootstrapPeaksDetection
 
           peaks <- self$filterProminence(peaks)
 
@@ -244,7 +337,7 @@ Bootstrap <- R6::R6Class(
           d <- self$bootstrapAllPeaksX[, i]
           initialParams <- self$makeInitialGmmParam(d, i)
           isBase = initialParams$isBase
-          print(initialParams)
+          # print(initialParams)
         #   res <- gmm$doGMM(d, initialParams$iniSd, initialParams$iniMu, initialParams$iniPi, showProgress = FALSE)
           res <- doEM(
               d, 
@@ -257,6 +350,14 @@ Bootstrap <- R6::R6Class(
           return(res)
         },
 
+        #' Estimate Gaussian Mixture Models (GMM) for all clustered peaks.
+        #'
+        #' This function iteratively estimates GMM parameters (mu, pi, and s) for each
+        #' clustered peak using the result of the `execGmm` function.
+        #'
+        #' @return A data frame with GMM parameters for each clustered peak, including
+        #' mu (mean), pi (mixture weight), s (standard deviation), prominence, and y values.
+        #'
         execAllGmm = function() {
           peaksX = self$basePeaks$peaksX
           prominence = self$basePeaks$prominence
@@ -307,8 +408,14 @@ Bootstrap <- R6::R6Class(
         },
 
         #' @description
-        #' Change hair color.
-        #' @param show New hair color.
+        #' Executes the entire Bootstrap process, including density estimation, bootstrapping, peak detection,
+        #' and Gaussian Mixture Model (GMM) estimation for clustered peaks.
+        #'
+        #' @param show A logical value indicating whether to display the results (default is TRUE).
+        #' @param progress A logical value indicating whether to display progress bars during bootstrapping (default is TRUE).
+        #'
+        #' @return A data frame containing GMM parameters for the clustered peaks.
+        #'
         #' @examples
         #' set.seed(123); dat <- rnorm(100)
         #' densFn <- density
@@ -317,13 +424,7 @@ Bootstrap <- R6::R6Class(
         #' boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
         #' # exec Bootstrap
         #' res <- boot$doAllProcess(show=FALSE)
-        #' # get confident interval
-        #' ci <- boot$getCI()
-        #' # plot result
-        #' plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
-        #' polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
-        #' lines(boot$baseDens)
-        #' curve(dnorm,-3,3,add=TRUE,col="red")
+        #' print(res)
         #'
         doAllProcess = function(show = TRUE, progress = TRUE) {
           self$getBaseDens()

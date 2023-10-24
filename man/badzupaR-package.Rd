@@ -1,34 +1,31 @@
-\name{badzupaR-package}
-\alias{badzupaR-package}
-\alias{badzupaR}
+\name{xbadzupaR-package}
+\alias{xbadzupaR-package}
+\alias{xbadzupaR}
 \docType{package}
 \title{
-  A short title line describing what the package does
+  X-BADZUPA(A Cross-Validation and Bootstrap Approach for Detrital Zircon U-Pb age distributions)
 }
 \description{
-  A more detailed description of what the package does. A length
-  of about one to five lines is recommended.
+  xbadzupaR is a comprehensive R package for detrital zircon U–Pb analysis. It features an optimal model selection algorithm with cross-validation, bootstrapping for uncertainty assessment, and Multi-Dimensional Scaling for distribution comparisons, making it a valuable tool for researchers studying sedimentary rock provenance and crustal history.
 }
 \details{
-  This section should provide a more detailed overview of how to use the
-  package, including the most important functions.
+  \code{\link{density.adeba}{density.adeba}}
+  \code{\link{Cv}{Cv}}
+  \code{\link{Bootstrap}{Bootstrap}}
+  \code{\link{plotBootstrapMDS}{plotBootstrapMDS}}
+  \code{\link{getBootstrapMDS}{getBootstrapMDS}}
 }
 \author{
-Your Name, email optional.
-
-Maintainer: Your Name <your@email.com>
+  Furukawa Tan
 }
 \references{
-  This optional section can contain literature or other references for
-  background information.
 }
-\keyword{ package }
+\keyword{  }
 \seealso{
-  Optional links to other man pages
 }
 \examples{
-  \dontrun{
-     ## Optional simple examples of the most important functions
-     ## These can be in \dontrun{} and \donttest{} blocks.   
-  }
+  # \dontrun{
+  #    ## Optional simple examples of the most important functions
+  #    ## These can be in \dontrun{} and \donttest{} blocks.   
+  # }
 }

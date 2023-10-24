@@ -1,11 +1,11 @@
 Package: xbadzupaR
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: X-BADZUPA (A Cross-Validation and Bootstrap Approach for Detrital Zircon U-Pb age distributions)
 Version: 1.0
 Date: 2022-05-28
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one or more full sentences.
+Author: Furukawa Tan
+Maintainer: Furukawa Tan <tan.furukawa.s8@dc.tohoku.ac.jp>
+Description: xbadzupaR is a comprehensive R package designed for the analysis of detrital zircon U-Pb data.
 License: GPL-3
 Imports: Rcpp (>= 1.0.8), R6 (>= 2.5.1), magrittr (>= 2.0.2), ellipse (>= 0.4.3), IsoplotR (>= 4.3), bsearchtools (>= 0.0.61), ramify(>= 0.3.3) 
 LinkingTo: Rcpp

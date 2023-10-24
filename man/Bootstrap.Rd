@@ -2,15 +2,77 @@
 % Please edit documentation in R/bootstrap.R
 \name{Bootstrap}
 \alias{Bootstrap}
-\title{R6 Class Bootstrap
-text}
+\title{R6 Class Bootstrap}
+\usage{
+set.seed(123); dat <- rnorm(100)
+densFn <- density
+Nbootstrap <- 100
+noiseSize <- 0
+boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
+# exec Bootstrap
+res <- boot$doAllProcess(show=FALSE)
+# get confident interval
+ci <- boot$getCI()
+# plot result
+plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
+polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
+lines(boot$baseDens)
+curve(dnorm,-3,3,add=TRUE,col="red")
+}
 \description{
 R6 Class Bootstrap
-text
 
 R6 Class Bootstrap
-text
 }
+\details{
+This R6 class, Bootstrap, is designed for bootstrapping density estimation and peak detection.
+It allows you to perform bootstrap resampling, detect peaks in the bootstrapped results, and
+estimate Gaussian Mixture Models (GMM) for the detected peaks.
+}
+\section{Public Fields}{
+
+\describe{
+  \item{watcher}{A function to monitor the progress of bootstrapping.}
+  \item{Nbootstrap}{The number of bootstrap samples to generate.}
+  \item{dat}{The original data for density estimation.}
+  \item{ci}{A numeric vector representing confidence intervals.}
+  \item{noiseSize}{The standard deviation of random noise to add during bootstrapping.}
+  \item{densFn}{A function for estimating the density of the data.}
+  \item{baseDens}{The density estimate of the original data.}
+  \item{bootstrapResult}{A matrix containing bootstrap results.}
+  \item{peaksInBootstrapResult}{A list of peak information from the bootstrap results.}
+  \item{filteredPeaksInBootstrapResult}{Filtered peak information after applying thresholds.}
+  \item{prominenceThreshold}{Threshold for peak prominence.}
+  \item{relativeHeight}{Threshold for relative peak height.}
+  \item{bootstrapAllPeaksX}{A matrix containing clustered peaks from the base density.}
+  \item{basePeaks}{Filtered base peaks.}
+  \item{method}{The method used for bootstrapping ('naive' or 'smooth').}
+}
+}
+
+\section{Public Methods}{
+
+\describe{
+  \item{initialize}{Initialize the Bootstrap object with the specified parameters.}
+  \item{getBaseDens}{Estimate the density of the original data.}
+  \item{exeBootstrap}{Perform bootstrap resampling.}
+  \item{plotAllBootResult}{Plot all bootstrapped results.}
+  \item{detectAllPeaks}{Detect peaks in a density estimate.}
+  \item{detectPeaks}{Detect peaks based on specified criteria.}
+  \item{detectPeaksInBootstrapResult}{Detect peaks in the bootstrap results.}
+  \item{filterProminence}{Filter peaks based on prominence and relative height thresholds.}
+  \item{filterAllProminence}{Filter all peaks in the bootstrap results.}
+  \item{clusterPeaks}{Cluster peaks around a target X value.}
+  \item{clusterAllPeaks}{Cluster all base peaks.}
+  \item{checkBootstrapAllPeaks}{Plot density of clustered peaks.}
+  \item{makeInitialGmmParam}{Generate initial GMM parameters for a specific bootstrap result.}
+  \item{execGmm}{Perform Gaussian Mixture Model (GMM) estimation for a specific bootstrap result.}
+  \item{execAllGmm}{Perform GMM estimation for all clustered peaks.}
+  \item{getCI}{Get confidence intervals for density estimation.}
+  \item{doAllProcess}{Execute the entire Bootstrap process.}
+}
+}
+
 \examples{
 
 ## ------------------------------------------------
@@ -44,13 +106,7 @@ noiseSize <- 0
 boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
 # exec Bootstrap
 res <- boot$doAllProcess(show=FALSE)
-# get confident interval
-ci <- boot$getCI()
-# plot result
-plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
-polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
-lines(boot$baseDens)
-curve(dnorm,-3,3,add=TRUE,col="red")
+print(res)
 
 }
 \section{Methods}{
@@ -91,6 +147,30 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{Nbootstrap}}{The number of bootstrap samples to generate.}
+
+\item{\code{dat}}{The original dataset for bootstrapping.}
+
+\item{\code{densFn}}{The density estimation function for the dataset.}
+
+\item{\code{noiseSize}}{The amount of random noise to add to resampled data.}
+
+\item{\code{watcherFn}}{A custom function to monitor the progress of bootstrapping (default is a no-op function).
+getBaseDens
+
+This function computes the density function of the original dataset using the provided density estimation function.
+
+exeBootstrap
+
+This function performs bootstrapping to generate multiple resampled datasets
+and estimates their density functions. It is used to create the bootstrap result
+for further analysis.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-bootstrap-getBaseDens"></a>}}
@@ -109,6 +189,22 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$exeBootstrap(progress = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{progress}}{A logical value indicating whether to display progress during bootstrapping (default is TRUE).
+
+plotAllBootResult
+
+This function generates a plot to visualize the bootstrap results and the original dataset's density function.
+
+Estimate Gaussian Mixture Models (GMM) for all clustered peaks.
+
+This function iteratively estimates GMM parameters (mu, pi, and s) for each
+clustered peak using the result of the `execGmm` function.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-bootstrap-plotAllBootResult"></a>}}
@@ -217,6 +313,10 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$execAllGmm()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+A data frame with GMM parameters for each clustered peak, including
+mu (mean), pi (mixture weight), s (standard deviation), prominence, and y values.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-bootstrap-getCI"></a>}}
@@ -263,7 +363,8 @@ curve(dnorm,-3,3,add=TRUE,col="red")
 \if{html}{\out{<a id="method-bootstrap-doAllProcess"></a>}}
 \if{latex}{\out{\hypertarget{method-bootstrap-doAllProcess}{}}}
 \subsection{Method \code{doAllProcess()}}{
-Change hair color.
+Executes the entire Bootstrap process, including density estimation, bootstrapping, peak detection,
+and Gaussian Mixture Model (GMM) estimation for clustered peaks.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Bootstrap$doAllProcess(show = TRUE, progress = TRUE)}\if{html}{\out{</div>}}
 }
@@ -271,9 +372,14 @@ Change hair color.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{show}}{New hair color.}
+\item{\code{show}}{A logical value indicating whether to display the results (default is TRUE).}
+
+\item{\code{progress}}{A logical value indicating whether to display progress bars during bootstrapping (default is TRUE).}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A data frame containing GMM parameters for the clustered peaks.
 }
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
@@ -284,13 +390,7 @@ noiseSize <- 0
 boot <- Bootstrap$new(Nbootstrap, dat, densFn, noiseSize)
 # exec Bootstrap
 res <- boot$doAllProcess(show=FALSE)
-# get confident interval
-ci <- boot$getCI()
-# plot result
-plot(NA,NA,xlim=c(-3,3),ylim=c(0,0.5))
-polygon(x = c(ci$x, rev(ci$x)), y = c(ci$lowerCI, rev(ci$upperCI)), col = "lightblue", border = NA)
-lines(boot$baseDens)
-curve(dnorm,-3,3,add=TRUE,col="red")
+print(res)
 
 }
 \if{html}{\out{</div>}}

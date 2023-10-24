@@ -2,9 +2,24 @@
 % Please edit documentation in R/cross_validation.R
 \name{Cv}
 \alias{Cv}
-\title{Cv Class}
+\title{Cross Validation for xbadzupaR}
 \description{
 This R6 class provides cross-validation functionality for evaluating algorithms.
+}
+\examples{
+
+## ------------------------------------------------
+## Method `Cv$exeCVinAllAlgorithm`
+## ------------------------------------------------
+
+ algorithms <- list(
+     denstiyBOTEV = function(x) IsoplotR::kde(x, plot=FALSE),
+     densityADEBA = density.adeba
+ )
+ dat <- rnorm(100)
+ cv <- Cv$new(algorithms, dat)
+ cv$exeCVinAllAlgorithm()
+ 
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -66,6 +81,8 @@ Calculate Log-Likelihood with Bias for Cross-Validation
 }
 \subsection{Returns}{
 The log-likelihood with added bias.
+
+Execute cross-validation for a specific algorithm
 }
 }
 \if{html}{\out{<hr>}}
@@ -112,6 +129,21 @@ Execute cross-validation for all algorithms
 \subsection{Returns}{
 A data frame containing cross-validation results for all algorithms.
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{ algorithms <- list(
+     denstiyBOTEV = function(x) IsoplotR::kde(x, plot=FALSE),
+     densityADEBA = density.adeba
+ )
+ dat <- rnorm(100)
+ cv <- Cv$new(algorithms, dat)
+ cv$exeCVinAllAlgorithm()
+ 
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-cv-clone"></a>}}
